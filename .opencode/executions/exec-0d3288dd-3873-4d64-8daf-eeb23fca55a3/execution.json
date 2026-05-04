@@ -11,8 +11,8 @@
     {
       "key": "prepare_branch",
       "status": "failed",
-      "startedAt": "2026-05-04T17:24:10Z",
-      "completedAt": "2026-05-04T17:24:10Z",
+      "startedAt": "2026-05-04T17:29:31Z",
+      "completedAt": "2026-05-04T17:29:31Z",
       "error": "The selected project has uncommitted changes. Resolve them before starting an execution worktree."
     },
     {
@@ -111,9 +111,44 @@
       "level": "info",
       "message": "Step failed: prepare_branch: The selected project has uncommitted changes. Resolve them before starting an execution worktree.",
       "stepKey": "prepare_branch"
+    },
+    {
+      "id": "d68c8d94-11d9-4bb9-b8ef-639c39424244",
+      "timestamp": "2026-05-04T17:29:30Z",
+      "level": "info",
+      "message": "Retry scheduled for failed step: prepare_branch",
+      "stepKey": "prepare_branch"
+    },
+    {
+      "id": "8a2606e9-2756-45c9-b940-15f056f56d7c",
+      "timestamp": "2026-05-04T17:29:31Z",
+      "level": "info",
+      "message": "Step started: prepare_branch",
+      "stepKey": "prepare_branch"
+    },
+    {
+      "id": "20762504-d468-43f3-9094-ab250c04b188",
+      "timestamp": "2026-05-04T17:29:31Z",
+      "level": "info",
+      "message": "Preparing isolated git worktree and feature branch\u2026",
+      "stepKey": "prepare_branch"
+    },
+    {
+      "id": "46e148e8-20af-47a3-a0cf-8e3f6dfd9035",
+      "timestamp": "2026-05-04T17:29:31Z",
+      "level": "error",
+      "message": "Git prepare failed: The selected project has uncommitted changes. Resolve them before starting an execution worktree.",
+      "stepKey": "prepare_branch"
+    },
+    {
+      "id": "13ad2ae4-321b-4807-8a09-f4b6b0c8a74a",
+      "timestamp": "2026-05-04T17:29:31Z",
+      "level": "info",
+      "message": "Step failed: prepare_branch: The selected project has uncommitted changes. Resolve them before starting an execution worktree.",
+      "stepKey": "prepare_branch"
     }
   ],
   "error": "The selected project has uncommitted changes. Resolve them before starting an execution worktree.",
   "createdAt": "2026-05-04T17:24:09Z",
-  "updatedAt": "2026-05-04T17:24:10Z"
+  "updatedAt": "2026-05-04T17:29:31Z"
 }
