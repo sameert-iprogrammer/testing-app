@@ -1,0 +1,119 @@
+{
+  "id": "exec-0d3288dd-3873-4d64-8daf-eeb23fca55a3",
+  "storyKey": "TS-01",
+  "storyTitle": "Implement Login Form Functionality with Protected Dashboard Route",
+  "storyDescription": "As a user,\nI want to log in using valid credentials,\nso that I can access the dashboard page securely.\n\nBackground / Context\n\nThe React application currently has two designed pages:\n\n/login\n/dashboard\n\nAt the moment, both pages are UI-only and do not contain business logic.\n\nFor this story, no backend API integration is required. Authentication should be handled on the frontend using fixed mock credentials.\n\nMock Credentials\nEmail: test@example.com\nPassword: Admin@123\n\nOnly these credentials should allow successful login.\n\nFunctional Requirements\n1. Login Form State Handling\n\nThe login form should manage the following fields:\n\nemail\npassword\nrememberMe\n\nThe user should be able to type into the email and password fields.\n\n2. Login Validation\n\nWhen the user clicks the Sign in button:\n\nValidate that:\n\nemail === \"test@example.com\"\npassword === \"Admin@123\"\n\nIf credentials are valid:\n\n- Store authentication state in browser storage\n- Redirect user to /dashboard\n\nIf credentials are invalid:\n\n- Stay on /login\n- Show a clear error message\n- Do not authenticate the user\n\nExample error message:\n\nInvalid email or password.\n3. Empty Field Validation\n\nIf the user submits the form with empty fields:\n\n- Email is required\n- Password is required\n\nValidation messages should be shown near the related fields or as a common form error.\n\n4. Authentication Storage\n\nUse frontend-only authentication storage.\n\nRecommended approach:\n\nlocalStorage\n\nStore a simple mock auth flag:\n\nisAuthenticated = true\n\nOptionally store mock user information:\n\n{\n  \"email\": \"test@example.com\",\n  \"name\": \"Test User\"\n}\n\nDo not store the password.\n\n5. Protected Dashboard Route\n\nThe /dashboard route should be protected.\n\nIf the user is not authenticated and tries to access:\n\n/dashboard\n\nThen redirect the user to:\n\n/login\n6. Login Page Redirect Behavior\n\nIf the user is already authenticated and visits:\n\n/login\n\nThen redirect the user to:\n\n/dashboard\n7. Logout Support\n\nAdd a basic logout action on the dashboard.\n\nWhen the user clicks logout:\n\n- Clear authentication data from localStorage\n- Redirect user to /login\n\nIf there is no logout button in the design yet, add a simple logout button in the dashboard top-right area.\n\nAcceptance Criteria\nScenario 1: Successful Login\n\nGiven I am on the login page\nWhen I enter:\n\nEmail: test@example.com\nPassword: Admin@123\n\nAnd I click Sign in\nThen I should be redirected to:\n\n/dashboard\n\nAnd authentication state should be stored.\n\nScenario 2: Invalid Login\n\nGiven I am on the login page\nWhen I enter an invalid email or password\nAnd I click Sign in\nThen I should stay on:\n\n/login\n\nAnd I should see:\n\nInvalid email or password.\nScenario 3: Empty Login Form\n\nGiven I am on the login page\nWhen I click Sign in without entering credentials\nThen I should see validation errors for required fields.\n\nScenario 4: Prevent Unauthorized Dashboard Access\n\nGiven I am not authenticated\nWhen I directly open:\n\n/dashboard\n\nThen I should be redirected to:\n\n/login\nScenario 5: Redirect Authenticated User Away From Login\n\nGiven I am already authenticated\nWhen I open:\n\n/login\n\nThen I should be redirected to:\n\n/dashboard\nScenario 6: Logout\n\nGiven I am authenticated and on the dashboard\nWhen I click Logout\nThen authentication data should be cleared\nAnd I should be redirected to:\n\n/login",
+  "baseBranch": "main",
+  "branchName": "feat/TS-01-implement-login-form-functionality-with-protected",
+  "status": "failed",
+  "currentStep": "prepare_branch",
+  "steps": [
+    {
+      "key": "prepare_branch",
+      "status": "failed",
+      "startedAt": "2026-05-04T17:24:10Z",
+      "completedAt": "2026-05-04T17:24:10Z",
+      "error": "The selected project has uncommitted changes. Resolve them before starting an execution worktree."
+    },
+    {
+      "key": "story_analyzer",
+      "status": "pending",
+      "startedAt": null,
+      "completedAt": null,
+      "error": null
+    },
+    {
+      "key": "implementation_planner",
+      "status": "pending",
+      "startedAt": null,
+      "completedAt": null,
+      "error": null
+    },
+    {
+      "key": "plan_approval",
+      "status": "pending",
+      "startedAt": null,
+      "completedAt": null,
+      "error": null
+    },
+    {
+      "key": "code_implementer",
+      "status": "pending",
+      "startedAt": null,
+      "completedAt": null,
+      "error": null
+    },
+    {
+      "key": "ai_reviewer",
+      "status": "pending",
+      "startedAt": null,
+      "completedAt": null,
+      "error": null
+    },
+    {
+      "key": "auto_fixer",
+      "status": "pending",
+      "startedAt": null,
+      "completedAt": null,
+      "error": null
+    },
+    {
+      "key": "final_review",
+      "status": "pending",
+      "startedAt": null,
+      "completedAt": null,
+      "error": null
+    },
+    {
+      "key": "commit_push",
+      "status": "pending",
+      "startedAt": null,
+      "completedAt": null,
+      "error": null
+    }
+  ],
+  "review": {
+    "enabled": true,
+    "autoFixEnabled": true,
+    "currentCycle": 0,
+    "maxCycles": 1
+  },
+  "files": {
+    "specFile": null,
+    "planFile": null,
+    "reviewFile": null
+  },
+  "logs": [
+    {
+      "id": "5dc662f0-b425-4674-ac04-e184dd88553a",
+      "timestamp": "2026-05-04T17:24:10Z",
+      "level": "info",
+      "message": "Step started: prepare_branch",
+      "stepKey": "prepare_branch"
+    },
+    {
+      "id": "c4a128ca-b752-458d-8332-579bc9e055d9",
+      "timestamp": "2026-05-04T17:24:10Z",
+      "level": "info",
+      "message": "Preparing isolated git worktree and feature branch\u2026",
+      "stepKey": "prepare_branch"
+    },
+    {
+      "id": "c37352aa-c645-4764-9c93-c1d40846fe18",
+      "timestamp": "2026-05-04T17:24:10Z",
+      "level": "error",
+      "message": "Git prepare failed: The selected project has uncommitted changes. Resolve them before starting an execution worktree.",
+      "stepKey": "prepare_branch"
+    },
+    {
+      "id": "836d6712-a6fc-4a5e-9fa4-7e48bd148547",
+      "timestamp": "2026-05-04T17:24:10Z",
+      "level": "info",
+      "message": "Step failed: prepare_branch: The selected project has uncommitted changes. Resolve them before starting an execution worktree.",
+      "stepKey": "prepare_branch"
+    }
+  ],
+  "error": "The selected project has uncommitted changes. Resolve them before starting an execution worktree.",
+  "createdAt": "2026-05-04T17:24:09Z",
+  "updatedAt": "2026-05-04T17:24:10Z"
+}
