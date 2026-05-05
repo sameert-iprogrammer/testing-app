@@ -53,11 +53,21 @@ const DashboardLayout: React.FC<LayoutProps> = ({ children }) => {
             />
             <NavItem icon={<Users size={20} />} label="Audience" />
             <NavItem icon={<BarChart3 size={20} />} label="Reports" />
-            <NavItem icon={<Settings size={20} />} label="Settings" />
+            <NavItem icon={<Settings size={20} />} label="Settings" onClick={() => navigate("/settings")} />
           </nav>
 
           <div className="p-4 mt-auto border-t border-slate-800">
-            <div className="flex items-center gap-3 px-2 py-3 rounded-lg hover:bg-slate-800/50 transition-colors cursor-pointer group">
+            <div
+              className="flex items-center gap-3 px-2 py-3 rounded-lg hover:bg-slate-800/50 transition-colors cursor-pointer group"
+              onClick={handleLogout}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  handleLogout();
+                }
+              }}
+            >
               <div className="h-8 w-8 rounded-full bg-slate-700 flex items-center justify-center text-xs font-bold text-slate-300 overflow-hidden">
                 <img
                   src="https://ui-avatars.com/api/?name=John+Doe&background=4f46e5&color=fff"
@@ -154,13 +164,16 @@ const NavItem = ({
   icon,
   label,
   active = false,
+  onClick,
 }: {
   icon: React.ReactNode;
   label: string;
   active?: boolean;
+  onClick?: () => void;
 }) => (
   <button
     type="button"
+    onClick={onClick}
     className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200 group w-full text-left ${active ? "bg-indigo-600/10 text-indigo-400" : "text-slate-400 hover:bg-slate-800/50 hover:text-slate-200"}`}
   >
     <span
