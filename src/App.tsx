@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import ProtectedRoute from './components/ProtectedRoute';
 import LoginPage from './pages/LoginPage';
 import DashboardLayout from './components/DashboardLayout';
 import DashboardPage from './pages/DashboardPage';
@@ -12,9 +13,11 @@ function App() {
         
         {/* Protected Routes (Layout wrapped) */}
         <Route path="/dashboard" element={
-          <DashboardLayout>
-            <DashboardPage />
-          </DashboardLayout>
+          <ProtectedRoute>
+            <DashboardLayout>
+              <DashboardPage />
+            </DashboardLayout>
+          </ProtectedRoute>
         } />
         
         {/* Default Redirect */}
