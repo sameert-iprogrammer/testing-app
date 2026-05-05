@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, 
   Users, 
@@ -10,12 +11,21 @@ import {
   LogOut,
   ChevronRight
 } from 'lucide-react';
+import useAuth from '../hooks/useAuth';
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
 const DashboardLayout: React.FC<LayoutProps> = ({ children }) => {
+  const navigate = useNavigate();
+  const { logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login', { replace: true });
+  };
+
   return (
     <div className="min-h-screen bg-slate-950 text-slate-200 flex">
       {/* Sidebar */}
@@ -37,7 +47,13 @@ const DashboardLayout: React.FC<LayoutProps> = ({ children }) => {
         </nav>
         
         <div className="p-4 mt-auto border-t border-slate-800">
-          <div className="flex items-center gap-3 px-2 py-3 rounded-lg hover:bg-slate-800/50 transition-colors cursor-pointer group">
+          <div
+            role="button"
+            tabIndex={0}
+            onClick={handleLogout}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleLogout(); }}
+            className="flex items-center gap-3 px-2 py-3 rounded-lg hover:bg-slate-800/50 transition-colors cursor-pointer group"
+          >
             <div className="h-8 w-8 rounded-full bg-slate-700 flex items-center justify-center text-xs font-bold text-slate-300 overflow-hidden">
               <img src="https://ui-avatars.com/api/?name=John+Doe&background=4f46e5&color=fff" alt="User" />
             </div>
@@ -73,6 +89,12 @@ const DashboardLayout: React.FC<LayoutProps> = ({ children }) => {
               <Bell size={20} />
               <span className="absolute top-2 right-2 w-2 h-2 bg-indigo-500 rounded-full border-2 border-slate-950"></span>
             </button>
+            <button
+              onClick={handleLogout}
+              className="text-slate-400 hover:text-rose-400 transition-colors text-sm font-medium"
+            >
+              Logout
+            </button>
             <div className="h-8 w-px bg-slate-800 mx-2"></div>
             <button className="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-lg shadow-indigo-500/20">
               Download Report
@@ -90,12 +112,12 @@ const DashboardLayout: React.FC<LayoutProps> = ({ children }) => {
 };
 
 const NavItem = ({ icon, label, active = false }: { icon: React.ReactNode, label: string, active?: boolean }) => (
-  <a href="#" className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200 group ${active ? 'bg-indigo-600/10 text-indigo-400' : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200'}`}>
+  <button type="button" className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200 group w-full text-left ${active ? 'bg-indigo-600/10 text-indigo-400' : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200'}`}>
     <span className={active ? 'text-indigo-400' : 'text-slate-500 group-hover:text-slate-300'}>{icon}</span>
     <span className="font-medium text-sm flex-1">{label}</span>
     {active && <div className="w-1.5 h-1.5 rounded-full bg-indigo-400 shadow-[0_0_8px_rgba(129,140,248,0.8)]"></div>}
     {!active && <ChevronRight size={14} className="opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all text-slate-600" />}
-  </a>
+  </button>
 );
 
 export default DashboardLayout;
