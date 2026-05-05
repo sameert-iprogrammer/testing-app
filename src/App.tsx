@@ -3,6 +3,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import LoginPage from './pages/LoginPage';
 import DashboardLayout from './components/DashboardLayout';
 import DashboardPage from './pages/DashboardPage';
+import SettingsPage from './pages/SettingsPage';
 
 function App() {
   return (
@@ -16,6 +17,13 @@ function App() {
           <ProtectedRoute>
             <DashboardLayout>
               <DashboardPage />
+            </DashboardLayout>
+          </ProtectedRoute>
+        } />
+        <Route path="/settings" element={
+          <ProtectedRoute>
+            <DashboardLayout>
+              <SettingsPage />
             </DashboardLayout>
           </ProtectedRoute>
         } />
