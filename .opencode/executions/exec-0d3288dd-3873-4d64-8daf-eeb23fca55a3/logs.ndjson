@@ -826,3 +826,5 @@
 {"id": "47b21f06-eded-44cf-8d82-3e5fb912646c", "timestamp": "2026-05-04T17:45:36Z", "level": "info", "message": "Step started: commit_push", "stepKey": "commit_push"}
 {"id": "53e82d28-e868-4e40-a44f-cf3fa9bb8276", "timestamp": "2026-05-04T17:45:36Z", "level": "info", "message": "Automated commit and push are not performed here; use the manual commit action in the app.", "stepKey": "commit_push"}
 {"id": "a5fc3353-bedc-489e-b49e-52bb96f5b3e6", "timestamp": "2026-05-04T17:45:36Z", "level": "info", "message": "Execution ready for manual commit and push (automated git disabled).", "stepKey": "commit_push"}
+{"id": "9ba4a283-c0f2-4a02-a55c-4ef63a6a7413", "timestamp": "2026-05-05T06:30:40Z", "level": "info", "message": "[GIT] No new changes in worktree — nothing to commit or push.", "stepKey": "commit_push"}
+{"id": "bfac3e63-0319-4289-b596-a9275c68cfdc", "timestamp": "2026-05-05T06:30:40Z", "level": "info", "message": "Execution completed", "stepKey": "commit_push"}
