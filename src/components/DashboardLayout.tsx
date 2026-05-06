@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import { generateSampleReport } from "../utils/generateSampleReport";
 import { ToastProvider, useToast } from "./Toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 
 interface LayoutProps {
@@ -23,6 +23,7 @@ interface LayoutProps {
 
 const DashboardLayout: React.FC<LayoutProps> = ({ children }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { logout } = useAuth();
 
   const handleLogout = () => {
@@ -49,11 +50,27 @@ const DashboardLayout: React.FC<LayoutProps> = ({ children }) => {
             <NavItem
               icon={<LayoutDashboard size={20} />}
               label="Overview"
-              active
+              active={location.pathname === "/dashboard"}
+              onClick={() => navigate("/dashboard")}
             />
-            <NavItem icon={<Users size={20} />} label="Audience" />
-            <NavItem icon={<BarChart3 size={20} />} label="Reports" onClick={() => navigate("/reports")} />
-            <NavItem icon={<Settings size={20} />} label="Settings" onClick={() => navigate("/settings")} />
+            <NavItem
+              icon={<Users size={20} />}
+              label="Audience"
+              active={location.pathname === "/audience"}
+              onClick={() => navigate("/audience")}
+            />
+            <NavItem
+              icon={<BarChart3 size={20} />}
+              label="Reports"
+              active={location.pathname === "/reports"}
+              onClick={() => navigate("/reports")}
+            />
+            <NavItem
+              icon={<Settings size={20} />}
+              label="Settings"
+              active={location.pathname === "/settings"}
+              onClick={() => navigate("/settings")}
+            />
           </nav>
 
           <div className="p-4 mt-auto border-t border-slate-800">
