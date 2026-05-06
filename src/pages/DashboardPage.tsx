@@ -1,12 +1,56 @@
 import React from 'react';
-import { 
-  TrendingUp, 
-  Users, 
-  DollarSign, 
-  Eye, 
-  ArrowUpRight, 
-  ArrowDownRight 
+import {
+  TrendingUp,
+  Users,
+  DollarSign,
+  Eye,
+  ArrowUpRight,
+  ArrowDownRight,
 } from 'lucide-react';
+import CustomersTable, { type Customer } from '../components/CustomersTable';
+
+const MOCK_CUSTOMERS: Customer[] = [
+  {
+    id: 'cust-alice-nguyen',
+    name: 'Alice Nguyen',
+    email: 'alice.nguyen@example.com',
+    company: 'Northwind Traders',
+    status: 'Active',
+    joined: '2025-11-12',
+  },
+  {
+    id: 'cust-ben-ortega',
+    name: 'Ben Ortega',
+    email: 'ben.ortega@example.com',
+    company: 'Contoso Labs',
+    status: 'Invited',
+    joined: '2026-01-04',
+  },
+  {
+    id: 'cust-chandra-patel',
+    name: 'Chandra Patel',
+    email: 'chandra.patel@example.com',
+    company: 'Fabrikam Inc.',
+    status: 'Active',
+    joined: '2025-08-22',
+  },
+  {
+    id: 'cust-diego-muller',
+    name: 'Diego Müller',
+    email: 'diego.muller@example.com',
+    company: 'Adventure Works',
+    status: 'Churned',
+    joined: '2025-03-30',
+  },
+  {
+    id: 'cust-elena-rossi',
+    name: 'Elena Rossi',
+    email: 'elena.rossi@example.com',
+    company: 'Tailspin Toys',
+    status: 'Active',
+    joined: '2026-04-18',
+  },
+];
 
 const DashboardPage: React.FC = () => {
   return (
@@ -86,6 +130,14 @@ const DashboardPage: React.FC = () => {
             View All Transactions
           </button>
         </div>
+      </div>
+
+      <div className="bg-slate-900/40 border border-slate-800 rounded-2xl p-6">
+        <div className="mb-6">
+          <h3 className="font-semibold text-lg">Customers</h3>
+          <p className="text-slate-400 text-sm mt-1">Recent accounts on the platform</p>
+        </div>
+        <CustomersTable customers={MOCK_CUSTOMERS} />
       </div>
     </div>
   );
