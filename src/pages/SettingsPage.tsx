@@ -15,6 +15,40 @@ interface FormFieldProps {
   onBlur?: (value: string) => void;
 }
 
+type UserLogStatus = 'Success' | 'Failed';
+
+interface UserLog {
+  id: number;
+  action: string;
+  dateTime: string;
+  device: string;
+  status: UserLogStatus;
+}
+
+const userLogs: UserLog[] = [
+  {
+    id: 1,
+    action: 'Profile updated',
+    dateTime: '12 May 2026, 10:30 AM',
+    device: 'Chrome on Windows',
+    status: 'Success',
+  },
+  {
+    id: 2,
+    action: 'Password changed',
+    dateTime: '11 May 2026, 06:15 PM',
+    device: 'Safari on Mac',
+    status: 'Success',
+  },
+  {
+    id: 3,
+    action: 'Login attempt',
+    dateTime: '10 May 2026, 09:45 AM',
+    device: 'Chrome on Android',
+    status: 'Failed',
+  },
+];
+
 const FormField: React.FC<FormFieldProps> = ({
   id,
   label,
@@ -127,6 +161,52 @@ const SettingsPage: React.FC = () => {
             Update Profile
           </button>
         </form>
+      </div>
+
+      <div className="max-w-2xl">
+        <section className="bg-slate-900/40 border border-slate-800 rounded-2xl p-6 space-y-4">
+          <div className="space-y-1">
+            <h2 className="text-xl font-semibold text-white">User Logs</h2>
+            <p className="text-sm text-slate-400">Recent account activity</p>
+          </div>
+
+          {userLogs.length === 0 ? (
+            <p className="text-sm text-slate-400">No user logs available.</p>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[640px] text-left text-sm text-slate-300">
+                <thead>
+                  <tr className="border-b border-slate-800 text-xs uppercase tracking-wide text-slate-400">
+                    <th scope="col" className="px-4 py-3 font-medium">Action</th>
+                    <th scope="col" className="px-4 py-3 font-medium">Date &amp; Time</th>
+                    <th scope="col" className="px-4 py-3 font-medium">Device</th>
+                    <th scope="col" className="px-4 py-3 font-medium">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {userLogs.map((log) => (
+                    <tr key={log.id} className="border-b border-slate-800/70 last:border-b-0">
+                      <td className="px-4 py-3 text-slate-200">{log.action}</td>
+                      <td className="px-4 py-3 text-slate-300">{log.dateTime}</td>
+                      <td className="px-4 py-3 text-slate-300">{log.device}</td>
+                      <td className="px-4 py-3">
+                        <span
+                          className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${
+                            log.status === 'Success'
+                              ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/30'
+                              : 'bg-rose-500/15 text-rose-300 border border-rose-500/30'
+                          }`}
+                        >
+                          {log.status}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </section>
       </div>
     </div>
   );
