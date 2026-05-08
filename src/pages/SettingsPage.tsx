@@ -1,6 +1,7 @@
 import React from 'react';
-import { User, Mail, MapPin, Check } from 'lucide-react';
+import { User, Mail, MapPin, Check, Lock } from 'lucide-react';
 import { useToast } from '../components/Toast';
+import { useChangePasswordForm } from '../hooks/useChangePasswordForm';
 import { useProfileForm } from '../hooks/useProfileForm';
 
 interface FormFieldProps {
@@ -56,7 +57,16 @@ const FormField: React.FC<FormFieldProps> = ({
 
 const SettingsPage: React.FC = () => {
   const { showToast } = useToast();
-  const { formData, errors, isFormValid, handleInputChange, validateEmail, validateRequired, setFieldError, handleSubmit } = useProfileForm();
+  const { formData, errors, isFormValid, handleInputChange, validateEmail, validateRequired, setFieldError, handleSubmit } =
+    useProfileForm();
+  const {
+    formData: changePasswordData,
+    errors: changePasswordErrors,
+    isChangePasswordSubmitEnabled,
+    handleInputChange: handleChangePasswordInputChange,
+    handleBlur: handleChangePasswordBlur,
+    handleSubmit: handleChangePasswordSubmit,
+  } = useChangePasswordForm();
 
   return (
     <div className="space-y-8 animate-in fade-in duration-700">
@@ -65,7 +75,7 @@ const SettingsPage: React.FC = () => {
         <p className="text-slate-400">Manage your account information</p>
       </div>
 
-      <div className="max-w-2xl">
+      <div className="max-w-2xl space-y-8">
         <form onSubmit={(e) => handleSubmit(e, showToast)} className="bg-slate-900/40 border border-slate-800 rounded-2xl p-6 space-y-6">
           <FormField
             id="name"
@@ -125,6 +135,61 @@ const SettingsPage: React.FC = () => {
           >
             <Check className="h-4 w-4" />
             Update Profile
+          </button>
+        </form>
+
+        <form
+          onSubmit={(e) => handleChangePasswordSubmit(e, showToast)}
+          className="bg-slate-900/40 border border-slate-800 rounded-2xl p-6 space-y-6"
+        >
+          <div className="space-y-1">
+            <h2 className="text-xl font-semibold text-white">Change Password</h2>
+            <p className="text-sm text-slate-400">Update your account password securely</p>
+          </div>
+
+          <FormField
+            id="current-password"
+            label="Current Password"
+            type="password"
+            value={changePasswordData.currentPassword}
+            placeholder="Enter current password"
+            icon={<Lock className="h-5 w-5" />}
+            error={changePasswordErrors.currentPassword}
+            onChange={(value) => handleChangePasswordInputChange('currentPassword', value)}
+            onBlur={(value) => handleChangePasswordBlur('currentPassword', value)}
+          />
+
+          <FormField
+            id="new-password"
+            label="New Password"
+            type="password"
+            value={changePasswordData.newPassword}
+            placeholder="Enter new password"
+            icon={<Lock className="h-5 w-5" />}
+            error={changePasswordErrors.newPassword}
+            onChange={(value) => handleChangePasswordInputChange('newPassword', value)}
+            onBlur={(value) => handleChangePasswordBlur('newPassword', value)}
+          />
+
+          <FormField
+            id="confirm-new-password"
+            label="Confirm New Password"
+            type="password"
+            value={changePasswordData.confirmPassword}
+            placeholder="Confirm new password"
+            icon={<Lock className="h-5 w-5" />}
+            error={changePasswordErrors.confirmPassword}
+            onChange={(value) => handleChangePasswordInputChange('confirmPassword', value)}
+            onBlur={(value) => handleChangePasswordBlur('confirmPassword', value)}
+          />
+
+          <button
+            type="submit"
+            disabled={!isChangePasswordSubmitEnabled}
+            className="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold rounded-lg shadow-lg shadow-indigo-500/20 flex items-center justify-center gap-2 transition-colors"
+          >
+            <Check className="h-4 w-4" />
+            Change Password
           </button>
         </form>
       </div>
