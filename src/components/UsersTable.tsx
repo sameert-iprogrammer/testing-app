@@ -7,7 +7,7 @@ import {
   ChevronRight,
   Loader2,
 } from 'lucide-react';
-import { User } from '../types/user';
+import type { User } from '../types/user';
 
 interface UsersTableProps {
   users: User[];

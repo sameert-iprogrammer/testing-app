@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import { User } from '../types/user';
+import type { User } from '../types/user';
 import { useToast } from '../components/Toast';
 
 const MOCK_USERS: User[] = [
