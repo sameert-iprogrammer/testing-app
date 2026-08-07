@@ -8,28 +8,57 @@ carries only what is specific to this repository.
 
 # Project Context
 
-<!-- Starter template created by iFlow readiness. Replace the placeholder
-sections with real project knowledge, then regenerate the brief from the
-Readiness page — IFLOW.md is always derived from this file. -->
-
 ## Overview
-Describe what this application does, who uses it, and the top user journeys.
+`testing-app` is a React-based web application scaffolded with Vite. It provides a complete user flow including authentication, a protected dashboard with a sidebar layout, profile management with form validation, and a reporting module capable of generating sample Excel reports. The application uses a context-based approach for global state (toasts) and custom hooks for feature-specific logic.
 
 ## Architecture
-List the main components/services, how they communicate, and where the
-entry points live.
+- **Component-Driven UI:** The application is structured around reusable components (`DashboardLayout`, `ProtectedRoute`, `Toast`) and feature-specific pages (`DashboardPage`, `ReportsPage`, etc.).
+- **Authentication Flow:** Uses `react-router-dom` for routing, with a `ProtectedRoute` wrapper to guard access to the dashboard and reporting pages. The `useAuth` hook manages authentication state.
+- **Global State & Notifications:** Notifications are handled via a `ToastProvider` wrapping the app, providing a `useToast` hook to all child components.
+- **Navigation:** `DashboardLayout` renders a persistent `DashboardHeader` and provides the main navigation shell for the application.
+- **Form Handling:** Complex state is managed via custom hooks (e.g., `useProfileForm`), keeping the view components declarative.
 
 ## Tech stack
-Languages, frameworks, build tooling, and test frameworks in use.
+- **Language:** TypeScript (`.tsx` files)
+- **Build Tool:** Vite (`vite.config.ts`)
+- **UI Framework:** React v19+
+- **Styling:** Tailwind CSS v4 (via `@tailwindcss/postcss`)
+- **Routing:** React Router v7 (`react-router-dom`)
+- **Icons:** Lucide React (`lucide-react`)
+- **Data Handling:** SheetJS (`xlsx`) for report generation
+- **Linting:** ESLint
 
 ## Conventions
-Coding standards, naming, error handling, logging, and review rules the
-team expects AI-generated changes to follow.
+- **Naming:**
+  - React components use PascalCase (e.g., `DashboardLayout`, `ReportsPage`).
+  - Custom hooks use camelCase and the `use` prefix (e.g., `useAuth`, `useProfileForm`).
+  - Utility functions use camelCase (e.g., `generateSampleReport`, `validateEmail`).
+- **State Management:**
+  - Local and feature-scoped state is encapsulated in custom hooks.
+  - Cross-component global state (e.g., toast notifications) uses React Context (`ToastProvider`).
+- **Directory Structure:**
+  - `src/pages/`: Top-level page components.
+  - `src/components/`: Shared UI components and layout wrappers.
+  - `src/hooks/`: Reusable logic encapsulated in hooks.
+  - `src/utils/`: Pure utility functions without side effects.
+- **Type Safety:** Strict usage of TypeScript interfaces for props (e.g., `LayoutProps`, `ToastDisplayProps`) and business data (e.g., `ProfileFormData`, `Report`, `AuthState`).
 
 ## Key paths
 | Path | Purpose |
-|---|---|
-| src/ | (describe) |
+| :--- | :--- |
+| `src/main.tsx` | Application entry point |
+| `src/App.tsx` | Root application component and top-level routing |
+| `src/index.css` | Global styles and Tailwind directives |
+| `src/pages/` | Feature-specific page components (Login, Dashboard, Reports, Settings) |
+| `src/components/` | Shared UI components (Layout, Routes, Toasts) |
+| `src/hooks/` | Custom hooks for business logic (Auth, Profile forms) |
+| `src/utils/` | Utility functions (Report generation) |
+| `vite.config.ts` | Vite build configuration |
+| `tailwind.config.js` | Tailwind CSS configuration |
+| `postcss.config.js` | PostCSS configuration (Tailwind plugin) |
 
 ## Build & test commands
-How to build, run, and test the project locally.
+- **Development server:** `npm run dev`
+- **Production build:** `npm run build` (TypeScript type-checking followed by Vite build)
+- **Linting:** `npm run lint`
+- **Preview:** `npm run preview` (Locally preview production build)
