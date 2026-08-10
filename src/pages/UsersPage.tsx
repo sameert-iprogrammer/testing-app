@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Plus, User, Mail, Users as UsersIcon } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+import { Plus, User, Mail, Users as UsersIcon, Search } from 'lucide-react';
 import { useToast } from '../components/Toast';
 import { validateRequired, validateEmail } from '../hooks/useProfileForm';
 
@@ -18,6 +18,8 @@ const mockUsers: User[] = [
   { id: '4', name: 'Alice Brown', email: 'alice.brown@example.com', role: 'Manager', status: 'Active' },
   { id: '5', name: 'Charlie Wilson', email: 'charlie.wilson@example.com', role: 'User', status: 'Deactivated' },
 ];
+
+const ITEMS_PER_PAGE = 10;
 
 const StatusBadge: React.FC<{ status: User['status'] }> = ({ status }) => {
   const styles: Record<User['status'], string> = {
@@ -44,6 +46,8 @@ const UsersPage: React.FC = () => {
     status: 'Active' as User['status'],
   });
   const [errors, setErrors] = useState<Record<string, string | undefined>>({});
+  const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
 
   const isFormValid =
     newUser.name.trim() !== '' &&
@@ -51,6 +55,30 @@ const UsersPage: React.FC = () => {
     newUser.role.trim() !== '' &&
     newUser.status.trim() !== '' &&
     !Object.values(errors).some(Boolean);
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+    setCurrentPage(1);
+  };
+
+  const filteredUsers = useMemo(() => {
+    if (!searchQuery.trim()) return users;
+    const query = searchQuery.toLowerCase();
+    return users.filter(
+      (user) =>
+        user.name.toLowerCase().includes(query) ||
+        user.email.toLowerCase().includes(query) ||
+        user.role.toLowerCase().includes(query)
+    );
+  }, [users, searchQuery]);
+
+  const paginatedUsers = useMemo(() => {
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    return filteredUsers.slice(start, start + ITEMS_PER_PAGE);
+  }, [filteredUsers, currentPage]);
+
+  const totalPages = Math.ceil(filteredUsers.length / ITEMS_PER_PAGE);
+  const validCurrentPage = Math.min(currentPage, Math.max(1, totalPages));
 
   const handleNewUserChange = (field: string, value: string) => {
     setNewUser((prev) => ({ ...prev, [field]: value }));
@@ -126,13 +154,28 @@ const UsersPage: React.FC = () => {
           <h1 className="text-3xl font-bold tracking-tight text-white">Users</h1>
           <p className="text-slate-400">Manage and view all registered users.</p>
         </div>
-        <button
-          onClick={() => setIsModalOpen(true)}
-          className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-lg shadow-lg shadow-indigo-500/20 flex items-center gap-2 px-4 py-2.5 transition-colors"
-        >
-          <Plus className="h-4 w-4" />
-          Add User
-        </button>
+        <div className="flex items-center gap-3">
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
+              <Search className="h-4 w-4" />
+            </div>
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={handleSearchChange}
+              placeholder="Search users..."
+              aria-label="Search users"
+              className="bg-slate-800/50 border border-slate-700 rounded-lg text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 transition-all text-sm pl-10 w-64"
+            />
+          </div>
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-lg shadow-lg shadow-indigo-500/20 flex items-center gap-2 px-4 py-2.5 transition-colors"
+          >
+            <Plus className="h-4 w-4" />
+            Add User
+          </button>
+        </div>
       </div>
 
       <div className="bg-slate-900/40 border border-slate-800 rounded-2xl overflow-hidden">
@@ -147,18 +190,65 @@ const UsersPage: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {users.map((user) => (
-                <tr key={user.id} className="border-b border-slate-800 last:border-b-0 hover:bg-slate-800/30 transition-colors">
-                  <td className="px-6 py-4 text-sm text-slate-200">{user.name}</td>
-                  <td className="px-6 py-4 text-sm text-slate-200">{user.email}</td>
-                  <td className="px-6 py-4 text-sm text-slate-200">{user.role}</td>
-                  <td className="px-6 py-4">
-                    <StatusBadge status={user.status} />
+              {paginatedUsers.length === 0 ? (
+                <tr>
+                  <td colSpan={4} className="px-6 py-12 text-center">
+                    <p className="text-slate-400">No users found</p>
                   </td>
                 </tr>
-              ))}
+              ) : (
+                paginatedUsers.map((user) => (
+                  <tr key={user.id} className="border-b border-slate-800 last:border-b-0 hover:bg-slate-800/30 transition-colors">
+                    <td className="px-6 py-4 text-sm text-slate-200">{user.name}</td>
+                    <td className="px-6 py-4 text-sm text-slate-200">{user.email}</td>
+                    <td className="px-6 py-4 text-sm text-slate-200">{user.role}</td>
+                    <td className="px-6 py-4">
+                      <StatusBadge status={user.status} />
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
+        </div>
+      </div>
+
+      {/* Pagination */}
+      <div className="flex flex-col items-center gap-4">
+        <p className="text-sm text-slate-400">
+          Showing {validCurrentPage === 1 ? 1 : (validCurrentPage - 1) * ITEMS_PER_PAGE + 1}
+          {' - '}
+          {Math.min(validCurrentPage * ITEMS_PER_PAGE, filteredUsers.length)} of {filteredUsers.length} users
+        </p>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
+            disabled={currentPage === 1}
+            className="py-2 px-3 border border-slate-700 text-slate-300 font-medium rounded-lg hover:bg-slate-800/50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+          >
+            Previous
+          </button>
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            <button
+              key={page}
+              onClick={() => setCurrentPage(page)}
+              className={`py-2 px-3 rounded-lg font-medium text-sm transition-colors ${
+                page === validCurrentPage
+                  ? 'bg-indigo-600 text-white'
+                  : 'border border-slate-700 text-slate-300 hover:bg-slate-800/50'
+              }`}
+              disabled={page === validCurrentPage}
+            >
+              {page}
+            </button>
+          ))}
+          <button
+            onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
+            disabled={currentPage === totalPages || totalPages === 0}
+            className="py-2 px-3 border border-slate-700 text-slate-300 font-medium rounded-lg hover:bg-slate-800/50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+          >
+            Next
+          </button>
         </div>
       </div>
 
