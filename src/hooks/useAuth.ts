@@ -3,12 +3,14 @@ import React from 'react';
 interface AuthState {
   isAuthenticated: boolean;
   user: { email: string; name: string } | null;
+  currentPassword: string;
 }
 
 interface UseAuthReturn {
   auth: AuthState;
   login: (email: string, password: string) => { success: boolean; error?: string };
   logout: () => void;
+  changePassword: (currentPassword: string, newPassword: string) => Promise<boolean>;
 }
 
 const MOCK_EMAIL = 'test@example.com';
@@ -26,7 +28,7 @@ export default function useAuth(): UseAuthReturn {
         user = null;
       }
     }
-    return { isAuthenticated, user };
+    return { isAuthenticated, user, currentPassword: MOCK_PASSWORD };
   });
 
   const login = (email: string, password: string): { success: boolean; error?: string } => {
@@ -42,8 +44,16 @@ export default function useAuth(): UseAuthReturn {
   const logout = (): void => {
     localStorage.removeItem('isAuthenticated');
     localStorage.removeItem('user');
-    setAuth({ isAuthenticated: false, user: null });
+    setAuth({ isAuthenticated: false, user: null, currentPassword: MOCK_PASSWORD });
   };
 
-  return { auth, login, logout };
+  const changePassword = async (currentPassword: string, newPassword: string): Promise<boolean> => {
+    if (currentPassword === MOCK_PASSWORD) {
+      setAuth((prev) => ({ ...prev, currentPassword: newPassword }));
+      return true;
+    }
+    return false;
+  };
+
+  return { auth, login, logout, changePassword };
 }
