@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   LayoutDashboard,
   Users,
@@ -16,6 +16,7 @@ import { generateSampleReport } from "../utils/generateSampleReport";
 import { ToastProvider, useToast } from "./Toast";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import NotificationPanel from "./NotificationPanel";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -24,6 +25,7 @@ interface LayoutProps {
 const DashboardLayout: React.FC<LayoutProps> = ({ children }) => {
   const navigate = useNavigate();
   const { logout } = useAuth();
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -87,7 +89,10 @@ const DashboardLayout: React.FC<LayoutProps> = ({ children }) => {
         </aside>
 
         <div className="flex-1 flex flex-col min-w-0">
-          <DashboardHeader />
+          <DashboardHeader
+            isNotificationOpen={isNotificationOpen}
+            toggleNotification={() => setIsNotificationOpen((prev) => !prev)}
+          />
           <main className="flex-1 overflow-y-auto p-6 md:p-10">{children}</main>
         </div>
       </div>
@@ -95,9 +100,35 @@ const DashboardLayout: React.FC<LayoutProps> = ({ children }) => {
   );
 };
 
-const DashboardHeader: React.FC = () => {
+const DashboardHeader: React.FC<{
+  isNotificationOpen: boolean;
+  toggleNotification: () => void;
+}> = ({ isNotificationOpen, toggleNotification }) => {
   const { showToast } = useToast();
   const [isDownloading, setIsDownloading] = useState(false);
+  const notificationButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (!isNotificationOpen) return;
+
+      const target = e.target as Node;
+      const button = notificationButtonRef.current;
+      const panel = document.querySelector('[data-notification-panel]');
+
+      const clickedButton = button && button.contains(target);
+      const clickedPanel = panel && panel.contains(target);
+
+      if (!clickedButton && !clickedPanel) {
+        toggleNotification();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isNotificationOpen, toggleNotification]);
 
   const handleDownload = async () => {
     setIsDownloading(true);
@@ -131,10 +162,23 @@ const DashboardHeader: React.FC = () => {
       </div>
 
       <div className="flex items-center gap-4">
-        <button className="p-2 text-slate-400 hover:text-white transition-colors relative">
-          <Bell size={20} />
-          <span className="absolute top-2 right-2 w-2 h-2 bg-indigo-500 rounded-full border-2 border-slate-950"></span>
-        </button>
+        <div className="relative">
+          <button
+            ref={notificationButtonRef}
+            className="p-2 text-slate-400 hover:text-white transition-colors relative"
+            onClick={toggleNotification}
+            aria-label="Toggle notifications"
+          >
+            <Bell size={20} />
+            <span className="absolute top-2 right-2 w-2 h-2 bg-indigo-500 rounded-full border-2 border-slate-950"></span>
+          </button>
+          <div data-notification-panel>
+            <NotificationPanel
+              isOpen={isNotificationOpen}
+              onClose={toggleNotification}
+            />
+          </div>
+        </div>
         <div className="h-8 w-px bg-slate-800 mx-2"></div>
         <button
           onClick={handleDownload}
