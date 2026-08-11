@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   LayoutDashboard,
   Users,
@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { generateSampleReport } from "../utils/generateSampleReport";
 import { ToastProvider, useToast } from "./Toast";
+import NotificationPanel from "./NotificationPanel";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 
@@ -99,6 +100,65 @@ const DashboardHeader: React.FC = () => {
   const { showToast } = useToast();
   const [isDownloading, setIsDownloading] = useState(false);
 
+  interface Notification {
+    id: string;
+    title: string;
+    message: string;
+    timestamp: string;
+    read: boolean;
+  }
+
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
+  const [notifications, setNotifications] = useState<Notification[]>([
+    {
+      id: '1',
+      title: 'New user registered',
+      message: 'Jane Smith has created an account on the platform.',
+      timestamp: '2 minutes ago',
+      read: false,
+    },
+    {
+      id: '2',
+      title: 'Report completed',
+      message: 'The monthly revenue summary report is ready for review.',
+      timestamp: '1 hour ago',
+      read: false,
+    },
+    {
+      id: '3',
+      title: 'Server alert',
+      message: 'CPU usage exceeded 80% on production server.',
+      timestamp: '3 hours ago',
+      read: true,
+    },
+  ]);
+
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  const handleMarkRead = (id: string) => {
+    setNotifications((prev) =>
+      prev.map((n) => (n.id === id ? { ...n, read: true } : n)),
+    );
+    setIsPanelOpen(false);
+  };
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        panelRef.current &&
+        !panelRef.current.contains(event.target as Node) &&
+        !isFocused
+      ) {
+        setIsPanelOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isFocused]);
+
   const handleDownload = async () => {
     setIsDownloading(true);
     try {
@@ -130,11 +190,25 @@ const DashboardHeader: React.FC = () => {
         </div>
       </div>
 
-      <div className="flex items-center gap-4">
-        <button className="p-2 text-slate-400 hover:text-white transition-colors relative">
+      <div className="flex items-center gap-4 relative">
+        <button
+          onClick={() => setIsPanelOpen((prev) => !prev)}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          className="p-2 text-slate-400 hover:text-white transition-colors relative"
+          aria-label="Notifications"
+        >
           <Bell size={20} />
-          <span className="absolute top-2 right-2 w-2 h-2 bg-indigo-500 rounded-full border-2 border-slate-950"></span>
+          {notifications.some((n) => !n.read) && (
+            <span className="absolute top-2 right-2 w-2 h-2 bg-indigo-500 rounded-full border-2 border-slate-950"></span>
+          )}
         </button>
+        <NotificationPanel
+          isOpen={isPanelOpen}
+          notifications={notifications}
+          onClose={() => setIsPanelOpen(false)}
+          onMarkRead={handleMarkRead}
+        />
         <div className="h-8 w-px bg-slate-800 mx-2"></div>
         <button
           onClick={handleDownload}
