@@ -11,6 +11,7 @@ import {
   ChevronRight,
   Download,
   Loader2,
+  Package,
 } from "lucide-react";
 import { generateSampleReport } from "../utils/generateSampleReport";
 import { ToastProvider, useToast } from "./Toast";
@@ -53,6 +54,7 @@ const DashboardLayout: React.FC<LayoutProps> = ({ children }) => {
             />
             <NavItem icon={<Users size={20} />} label="Audience" />
             <NavItem icon={<BarChart3 size={20} />} label="Reports" onClick={() => navigate("/reports")} />
+            <NavItem icon={<Package size={20} />} label="Orders" onClick={() => navigate("/orders")} />
             <NavItem icon={<Settings size={20} />} label="Settings" onClick={() => navigate("/settings")} />
           </nav>
 

@@ -5,6 +5,7 @@ import DashboardLayout from './components/DashboardLayout';
 import DashboardPage from './pages/DashboardPage';
 import SettingsPage from './pages/SettingsPage';
 import ReportsPage from './pages/ReportsPage';
+import OrdersPage from './pages/OrdersPage';
 
 function App() {
   return (
@@ -35,7 +36,14 @@ function App() {
             </DashboardLayout>
           </ProtectedRoute>
         } />
-        
+        <Route path="/orders" element={
+          <ProtectedRoute>
+            <DashboardLayout>
+              <OrdersPage />
+            </DashboardLayout>
+          </ProtectedRoute>
+        } />
+
         {/* Default Redirect */}
         <Route path="/" element={<Navigate to="/login" replace />} />
       </Routes>
