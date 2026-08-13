@@ -11,6 +11,7 @@ import {
   ChevronRight,
   Download,
   Loader2,
+  ShoppingCart,
 } from "lucide-react";
 import { generateSampleReport } from "../utils/generateSampleReport";
 import { ToastProvider, useToast } from "./Toast";
@@ -52,6 +53,7 @@ const DashboardLayout: React.FC<LayoutProps> = ({ children }) => {
               active
             />
             <NavItem icon={<Users size={20} />} label="Audience" />
+            <NavItem icon={<ShoppingCart size={20} />} label="Orders" onClick={() => navigate("/orders")} />
             <NavItem icon={<BarChart3 size={20} />} label="Reports" onClick={() => navigate("/reports")} />
             <NavItem icon={<Settings size={20} />} label="Settings" onClick={() => navigate("/settings")} />
           </nav>

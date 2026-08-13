@@ -5,6 +5,7 @@ import DashboardLayout from './components/DashboardLayout';
 import DashboardPage from './pages/DashboardPage';
 import SettingsPage from './pages/SettingsPage';
 import ReportsPage from './pages/ReportsPage';
+import OrdersPage from './pages/OrdersPage';
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
       <Routes>
         {/* Public Route */}
         <Route path="/login" element={<LoginPage />} />
-        
+
         {/* Protected Routes (Layout wrapped) */}
         <Route path="/dashboard" element={
           <ProtectedRoute>
@@ -35,7 +36,14 @@ function App() {
             </DashboardLayout>
           </ProtectedRoute>
         } />
-        
+        <Route path="/orders" element={
+          <ProtectedRoute>
+            <DashboardLayout>
+              <OrdersPage />
+            </DashboardLayout>
+          </ProtectedRoute>
+        } />
+
         {/* Default Redirect */}
         <Route path="/" element={<Navigate to="/login" replace />} />
       </Routes>
