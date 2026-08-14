@@ -16,11 +16,15 @@ const mockReports: Report[] = [
   { reportName: 'Transaction Report', type: 'Financial', generatedBy: 'John Doe', generatedDate: '2026-05-05', status: 'Failed' },
 ];
 
-const StatusBadge: React.FC<{ status: Report['status'] }> = ({ status }) => {
-  const styles: Record<Report['status'], string> = {
+export type StatusType = 'Completed' | 'Pending' | 'Failed' | 'Shipped' | 'Delivered';
+
+export const StatusBadge: React.FC<{ status: StatusType }> = ({ status }) => {
+  const styles: Record<StatusType, string> = {
     Completed: 'bg-emerald-400/10 text-emerald-400',
     Pending: 'bg-amber-400/10 text-amber-400',
     Failed: 'bg-rose-400/10 text-rose-400',
+    Shipped: 'bg-sky-400/10 text-sky-400',
+    Delivered: 'bg-emerald-400/10 text-emerald-400',
   };
 
   return (
