@@ -11,6 +11,7 @@ import {
   ChevronRight,
   Download,
   Loader2,
+  UserCheck,
 } from "lucide-react";
 import { generateSampleReport } from "../utils/generateSampleReport";
 import { ToastProvider, useToast } from "./Toast";
@@ -51,7 +52,8 @@ const DashboardLayout: React.FC<LayoutProps> = ({ children }) => {
               label="Overview"
               active
             />
-            <NavItem icon={<Users size={20} />} label="Audience" />
+            <NavItem icon={<UserCheck size={20} />} label="Audience" />
+            <NavItem icon={<Users size={20} />} label="Users" onClick={() => navigate("/users")} />
             <NavItem icon={<BarChart3 size={20} />} label="Reports" onClick={() => navigate("/reports")} />
             <NavItem icon={<Settings size={20} />} label="Settings" onClick={() => navigate("/settings")} />
           </nav>

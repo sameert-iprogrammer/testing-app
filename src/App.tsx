@@ -5,6 +5,7 @@ import DashboardLayout from './components/DashboardLayout';
 import DashboardPage from './pages/DashboardPage';
 import SettingsPage from './pages/SettingsPage';
 import ReportsPage from './pages/ReportsPage';
+import UsersPage from './pages/UsersPage';
 
 function App() {
   return (
@@ -32,6 +33,13 @@ function App() {
           <ProtectedRoute>
             <DashboardLayout>
               <ReportsPage />
+            </DashboardLayout>
+          </ProtectedRoute>
+        } />
+        <Route path="/users" element={
+          <ProtectedRoute>
+            <DashboardLayout>
+              <UsersPage />
             </DashboardLayout>
           </ProtectedRoute>
         } />
