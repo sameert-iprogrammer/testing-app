@@ -1,4 +1,5 @@
 import React from 'react';
+import StatusBadge from '../components/StatusBadge';
 
 interface Report {
   reportName: string;
@@ -15,20 +16,6 @@ const mockReports: Report[] = [
   { reportName: 'Session Report', type: 'Analytics', generatedBy: 'John Doe', generatedDate: '2026-05-04', status: 'Completed' },
   { reportName: 'Transaction Report', type: 'Financial', generatedBy: 'John Doe', generatedDate: '2026-05-05', status: 'Failed' },
 ];
-
-const StatusBadge: React.FC<{ status: Report['status'] }> = ({ status }) => {
-  const styles: Record<Report['status'], string> = {
-    Completed: 'bg-emerald-400/10 text-emerald-400',
-    Pending: 'bg-amber-400/10 text-amber-400',
-    Failed: 'bg-rose-400/10 text-rose-400',
-  };
-
-  return (
-    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${styles[status]}`}>
-      {status}
-    </span>
-  );
-};
 
 const ReportsPage: React.FC = () => {
   return (
