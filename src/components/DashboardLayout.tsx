@@ -53,6 +53,7 @@ const DashboardLayout: React.FC<LayoutProps> = ({ children }) => {
             />
             <NavItem icon={<Users size={20} />} label="Audience" />
             <NavItem icon={<BarChart3 size={20} />} label="Reports" onClick={() => navigate("/reports")} />
+            <NavItem icon={<Users size={20} />} label="Users" onClick={() => navigate("/users")} />
             <NavItem icon={<Settings size={20} />} label="Settings" onClick={() => navigate("/settings")} />
           </nav>
 
