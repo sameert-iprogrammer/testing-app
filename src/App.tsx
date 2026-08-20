@@ -5,6 +5,7 @@ import DashboardLayout from './components/DashboardLayout';
 import DashboardPage from './pages/DashboardPage';
 import SettingsPage from './pages/SettingsPage';
 import ReportsPage from './pages/ReportsPage';
+import RequestsPage from './pages/RequestsPage';
 
 function App() {
   return (
@@ -33,6 +34,11 @@ function App() {
             <DashboardLayout>
               <ReportsPage />
             </DashboardLayout>
+          </ProtectedRoute>
+        } />
+        <Route path="/requests" element={
+          <ProtectedRoute>
+            <RequestsPage />
           </ProtectedRoute>
         } />
         
