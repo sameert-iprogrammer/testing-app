@@ -35,6 +35,13 @@ function App() {
             </DashboardLayout>
           </ProtectedRoute>
         } />
+        <Route path="/orders" element={
+          <ProtectedRoute>
+            <DashboardLayout>
+              <OrdersPage />
+            </DashboardLayout>
+          </ProtectedRoute>
+        } />
         
         {/* Default Redirect */}
         <Route path="/" element={<Navigate to="/login" replace />} />
