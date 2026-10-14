@@ -1,5 +1,5 @@
 import React from 'react';
-import { User, Mail, MapPin, Check } from 'lucide-react';
+import { User, Mail, MapPin, Briefcase, Check } from 'lucide-react';
 import { useToast } from '../components/Toast';
 import { useProfileForm } from '../hooks/useProfileForm';
 
@@ -116,6 +116,17 @@ const SettingsPage: React.FC = () => {
                 setFieldError('address', addressError);
               }
             }}
+          />
+
+          <FormField
+            id="designation"
+            label="Designation"
+            type="text"
+            value={formData.designation}
+            placeholder="Enter your designation"
+            icon={<Briefcase className="h-5 w-5" />}
+            error={errors.designation}
+            onChange={(value) => handleInputChange('designation', value)}
           />
 
           <button

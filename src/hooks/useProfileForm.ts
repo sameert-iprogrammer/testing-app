@@ -4,18 +4,21 @@ export interface ProfileFormData {
   name: string;
   email: string;
   address: string;
+  designation: string;
 }
 
 export interface FormErrors {
   name?: string;
   email?: string;
   address?: string;
+  designation?: string;
 }
 
 const mockProfile: ProfileFormData = {
   name: 'John Doe',
   email: 'john.doe@example.com',
   address: '221B Baker Street, London',
+  designation: '',
 };
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
